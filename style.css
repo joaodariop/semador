@@ -341,17 +341,41 @@ a:hover {
   will-change: transform;
 }
 
-/* Screen-reader only — keeps h1 for SEO, SVG handles the visual */
+/* Hero title overlay — visible in gold */
 .hero-visual-text {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
+  text-align: center;
+  margin-top: var(--space-sm);
+}
+
+.hero-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2em;
+}
+
+.hero-title-top {
+  font-family: var(--font-display);
+  font-size: clamp(0.85rem, 1.8vw, 1.2rem);
+  font-weight: 700;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+  opacity: 0;
+  animation: fadeSlideUp 1s 0.8s var(--ease-out-expo) forwards;
+}
+
+.hero-title-bottom {
+  font-family: var(--font-display);
+  font-size: clamp(2.8rem, 7vw, 5.5rem);
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+  line-height: 1;
+  text-shadow: 0 2px 30px rgba(241, 218, 109, 0.2);
+  opacity: 0;
+  animation: titleReveal 1.2s 0.9s var(--ease-out-expo) forwards;
 }
 
 @keyframes fadeSlideUp {
