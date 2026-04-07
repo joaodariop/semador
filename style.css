@@ -348,7 +348,7 @@ a:hover {
   align-self: end;
   text-align: center;
   z-index: 10;
-  padding-bottom: 3%;
+  margin-bottom: 5%;
   pointer-events: none;
 }
 
@@ -380,7 +380,7 @@ a:hover {
   line-height: 0.95;
   text-shadow: 0 4px 40px rgba(0, 0, 0, 0.15);
   opacity: 0;
-  animation: titleReveal 1.2s 0.9s var(--ease-out-expo) forwards;
+  animation: fadeSlideUp 1.2s 1s var(--ease-out-expo) forwards;
 }
 
 @keyframes fadeSlideUp {
