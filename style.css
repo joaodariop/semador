@@ -323,13 +323,16 @@ a:hover {
 
 /* Hero SVG Visual — layered composition */
 .hero-visual {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: grid;
+  place-items: center;
   margin-bottom: var(--space-md);
   opacity: 0;
   animation: fadeSlideUp 1.2s 0.3s var(--ease-out-expo) forwards;
+}
+
+/* Both children occupy the same grid cell */
+.hero-visual > * {
+  grid-area: 1 / 1;
 }
 
 .hero-visual-img {
@@ -337,21 +340,15 @@ a:hover {
   height: auto;
   filter: drop-shadow(0 8px 40px rgba(0, 0, 0, 0.2)) drop-shadow(0 0 80px rgba(241, 218, 109, 0.08));
   pointer-events: none;
-  transition: transform 0.1s linear;
   will-change: transform;
-  position: relative;
-  z-index: 1;
 }
 
-/* Hero title overlay — positioned over the SVG like the identity */
+/* Hero title — overlaid at the bottom of the SVG */
 .hero-visual-text {
-  position: absolute;
-  bottom: 5%;
-  left: 50%;
-  transform: translateX(-50%);
+  align-self: end;
   text-align: center;
-  width: 100%;
   z-index: 10;
+  padding-bottom: 3%;
   pointer-events: none;
 }
 
