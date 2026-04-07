@@ -16,12 +16,28 @@
 </head>
 <body>
 
+  <!-- STICKY NAV -->
+  <nav id="navbar" class="navbar">
+    <div class="nav-inner">
+      <span class="nav-brand">MEVAM SOROCABA</span>
+      <div class="nav-links">
+        <a href="#manifesto">Manifesto</a>
+        <a href="#preletores">Preletores</a>
+        <a href="#programacao">Programação</a>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSdp3m7C39kaPGTq5bbVU0gxU9B3S3E21ih17S4cxaQx4F6NOw/viewform" target="_blank" class="nav-cta">INSCREVA-SE</a>
+      </div>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
   <!-- HERO SECTION -->
   <section id="hero" class="hero-section">
     <div class="hero-overlay"></div>
     <div class="hero-particles" id="particles"></div>
     <div class="hero-content">
-      <!-- SVG identity as background visual -->
+      <!-- SVG identity as central visual -->
       <div class="hero-visual">
         <img src="SEMINARIO (Apresentação).svg" alt="Seminário de Adoração — MEVAM Sorocaba" class="hero-visual-img">
         <div class="hero-visual-text">
@@ -41,7 +57,7 @@
           <span>Entrada Franca</span>
         </div>
       </div>
-      <a href="#manifesto" class="hero-cta">CONHEÇA O MANIFESTO</a>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSdp3m7C39kaPGTq5bbVU0gxU9B3S3E21ih17S4cxaQx4F6NOw/viewform" target="_blank" class="hero-cta">FAÇA SUA INSCRIÇÃO</a>
       <div class="hero-scroll-indicator">
         <div class="scroll-line"></div>
       </div>
@@ -68,23 +84,25 @@
   <!-- POR QUE SECTION -->
   <section id="porque" class="porque-section">
     <div class="container">
+      <div class="section-label">POR QUE PARTICIPAR</div>
+      <h2 class="section-title">Quatro razões para estar aqui</h2>
       <div class="porque-grid">
-        <div class="porque-card" data-aos="fade-up">
+        <div class="porque-card">
           <div class="porque-card-number">01</div>
           <h3 class="porque-card-title">Por que você precisa estar aqui?</h3>
           <p>Este não é mais um congresso para aprender acordes ou escalas. É um ambiente de <strong>ativação</strong>. Você deve vir porque o Reino de Deus não é feito de palavras, mas de poder e ordem. Se você sente que seu ministério estagnou no "fazer" e perdeu o "ser", este seminário é o seu lugar de retorno.</p>
         </div>
-        <div class="porque-card" data-aos="fade-up" data-aos-delay="100">
+        <div class="porque-card">
           <div class="porque-card-number">02</div>
           <h3 class="porque-card-title">O que vai mudar na sua vida?</h3>
           <p>Você sairá daqui com uma mentalidade de <strong>Filho e Sacerdote</strong>. Vai aprender a discernir atmosferas espirituais, a construir um altar familiar e ministerial que sustenta a presença de Deus durante toda a semana, e não apenas por 20 minutos no domingo.</p>
         </div>
-        <div class="porque-card" data-aos="fade-up" data-aos-delay="200">
+        <div class="porque-card">
           <div class="porque-card-number">03</div>
           <h3 class="porque-card-title">Que tipo de pessoa este evento vai formar?</h3>
           <p>Estamos formando <strong>Adoradores Governamentais</strong>. Pessoas que não dependem de luzes ou palcos, mas que carregam autoridade espiritual para transformar cidades através da intercessão e da música profética. Formaremos líderes que servem à Igreja Local com excelência e temor.</p>
         </div>
-        <div class="porque-card" data-aos="fade-up" data-aos-delay="300">
+        <div class="porque-card">
           <div class="porque-card-number">04</div>
           <h3 class="porque-card-title">Por que vale a pena mover sua Igreja?</h3>
           <p>Mover sua igreja para este seminário é investir na <strong>saúde espiritual</strong> do seu corpo local. Quando um ministério de louvor e intercessão se alinha à cultura do Reino, o fardo do pastor fica mais leve e o ambiente da igreja se torna solo fértil para o sobrenatural.</p>
@@ -244,6 +262,31 @@
   </footer>
 
   <script>
+    // --- Sticky Navbar ---
+    const navbar = document.getElementById('navbar');
+    const heroSection = document.getElementById('hero');
+    const navToggle = document.getElementById('navToggle');
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 80) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    });
+
+    // Mobile menu toggle
+    navToggle.addEventListener('click', () => {
+      navbar.classList.toggle('nav-open');
+    });
+
+    // Close mobile menu on link click
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', () => {
+        navbar.classList.remove('nav-open');
+      });
+    });
+
     // Smooth scroll for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function (e) {
@@ -255,45 +298,91 @@
       });
     });
 
-    // Parallax effect on hero
+    // --- Parallax on hero SVG ---
+    const heroVisual = document.querySelector('.hero-visual-img');
     window.addEventListener('scroll', () => {
-      const hero = document.getElementById('hero');
       const scrollY = window.scrollY;
-      if (hero) {
-        hero.style.backgroundPositionY = `${scrollY * 0.4}px`;
+      const heroHeight = heroSection?.offsetHeight || 900;
+      if (scrollY < heroHeight && heroVisual) {
+        heroVisual.style.transform = `translateY(${scrollY * 0.15}px) scale(${1 + scrollY * 0.0002})`;
       }
     });
 
-    // Intersection Observer for fade-in animations
+    // --- Intersection Observer with stagger ---
     const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
+      entries.forEach((entry, i) => {
         if (entry.isIntersecting) {
+          // Add staggered delay based on sibling index
+          const parent = entry.target.parentElement;
+          const siblings = Array.from(parent.children).filter(c => c.classList.contains('fade-in'));
+          const index = siblings.indexOf(entry.target);
+          entry.target.style.transitionDelay = `${index * 0.1}s`;
           entry.target.classList.add('visible');
         }
       });
-    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
 
     document.querySelectorAll('.porque-card, .preletor-card, .programacao-card, .estrutura-card').forEach(el => {
       el.classList.add('fade-in');
       observer.observe(el);
     });
 
+    // --- Manifesto section fade ---
+    const manifestoObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.manifesto-title, .manifesto-subtitle, .manifesto-content, .manifesto-highlight').forEach(el => {
+      el.classList.add('fade-in');
+      manifestoObserver.observe(el);
+    });
+
+    // --- CTA section counter animation ---
+    const ctaObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.2 });
+
+    document.querySelectorAll('.cta-title, .cta-info, .cta-note, .cta-button').forEach(el => {
+      el.classList.add('fade-in');
+      ctaObserver.observe(el);
+    });
+
     // Particle effect for hero
     function createParticles() {
       const container = document.getElementById('particles');
       if (!container) return;
-      for (let i = 0; i < 30; i++) {
+      for (let i = 0; i < 40; i++) {
         const particle = document.createElement('div');
         particle.className = 'particle';
         particle.style.left = Math.random() * 100 + '%';
         particle.style.top = Math.random() * 100 + '%';
-        particle.style.animationDelay = Math.random() * 8 + 's';
-        particle.style.animationDuration = (6 + Math.random() * 8) + 's';
-        particle.style.width = particle.style.height = (2 + Math.random() * 4) + 'px';
+        particle.style.animationDelay = Math.random() * 10 + 's';
+        particle.style.animationDuration = (6 + Math.random() * 10) + 's';
+        const size = 1.5 + Math.random() * 3;
+        particle.style.width = size + 'px';
+        particle.style.height = size + 'px';
         container.appendChild(particle);
       }
     }
     createParticles();
+
+    // --- Mouse-follow glow on hero ---
+    const heroContent = document.querySelector('.hero-content');
+    heroSection?.addEventListener('mousemove', (e) => {
+      const rect = heroSection.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width) * 100;
+      const y = ((e.clientY - rect.top) / rect.height) * 100;
+      heroSection.style.setProperty('--mouse-x', x + '%');
+      heroSection.style.setProperty('--mouse-y', y + '%');
+    });
   </script>
 </body>
 </html>
